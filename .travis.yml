@@ -1,8 +1,9 @@
 compiler:
-	-clang
-	-gcc
+  - gcc
 language: c
-sudo: false
+sudo: true
+install:
+  - sudo apt-get install check
 script:
   - gcc -o spell main.c spell.c dictionary.c dictionary.h -std=c99
-  - ./spell
+  - ./spell test1 wordlist.txt
