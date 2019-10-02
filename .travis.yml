@@ -5,5 +5,5 @@ sudo: true
 install:
   - sudo apt-get install check
 script:
-  - gcc -o spell main.c spell.c dictionary.c dictionary.h -std=c99
-  - ./spell test1 wordlist.txt
+  - Make
+  - Make test
