@@ -5,5 +5,5 @@ sudo: true
 install:
   - sudo apt-get install check
 script:
-  - Make
-  - Make test
+  - make
+  - make test
