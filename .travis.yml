@@ -1,7 +1,9 @@
 compiler:
   - gcc
 language: c
-sudo: false
+sudo: true
+install:
+  - sudo apt-get install check
 script:
   - make
   - make test
