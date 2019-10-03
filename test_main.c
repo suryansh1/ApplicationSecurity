@@ -28,16 +28,11 @@ START_TEST(test_check_word_normal)
     const char* punctuation_word_1 = "\"place\"";
     const char* punctuation_word_2 = "pl.ace";
 
-    const char* long_word = "pneumonoultramicroscopicsilicovolcanoconiosisssssssss";
-
     ck_assert(check_word(correct_word, hashtable));
     ck_assert(!check_word(punctuation_word_1, hashtable));
     ck_assert(!check_word(punctuation_word_2, hashtable));
-    ck_assert(!check_word(long_word, hashtable));
-    // Test here: What if a word begins and ends with "?
 
     
-
 }
 END_TEST
 
@@ -80,6 +75,37 @@ START_TEST(test_check_word_long)
 }
 END_TEST
 
+START_TEST(test_check_word_mixed_case)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    load_dictionary(DICTIONARY, hashtable);
+    
+    const char* mixed_case_word_1 =  "HeLLo";
+    const char* mixed_case_word_2 =  "Hello";
+    const char* small_case_word =  "hello";
+
+
+    /* 
+    I am converting each word in dictionary to lower case before storing
+    
+    Also, each word which is to be checked is being converted to lowercase 
+    before being passed to check_word()
+
+    This is done to make sure hashtable does not have multiple entries
+    for different case words, and so that we do not have to traverse hash table
+    twice, with different case letters to search for a word
+
+    Thus, only small case would be present in dictionary and other cases words
+    should not be there
+    */
+    ck_assert(!check_word(mixed_case_word_1, hashtable));
+    ck_assert(!check_word(mixed_case_word_2, hashtable));
+    ck_assert(check_word(small_case_word, hashtable));
+   
+
+}
+END_TEST
+
 Suite *
 check_word_suite(void)
 {
@@ -91,7 +117,7 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_check_words_normal);
     tcase_add_test(check_word_case, test_dictionary_normal);
     tcase_add_test(check_word_case, test_check_word_long);
-
+    tcase_add_test(check_word_case, test_check_word_mixed_case);
     suite_add_tcase(suite, check_word_case);
 
     return suite;
